@@ -26,9 +26,9 @@ connection.connect((err) => {
 
 // logging validation api
 app.get('/login', (req, res) => {
-  const { name, password } = req.query;
+  const { phone_number , password } = req.query;
   // sql code
-  const sql=`SELECT * FROM users WHERE username="${name}"AND password="${password}"`
+  const sql=`SELECT * FROM users WHERE phone_number ="${phone_number }"AND password="${password}"`
   connection.query(sql, (err, results, fields) => {
     if (err) {
       
