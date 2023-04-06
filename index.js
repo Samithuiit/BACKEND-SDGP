@@ -300,6 +300,36 @@ app.get('/login', (req, res) => {
 
 });
 
+app.post('/signup', (req, res) => {
+  const { username, password, phone_number, role } = req.body;
+
+  // Validate Input Data
+  if (!username || !password || !phone_number || !role) {
+      res.status(400).json({ message: 'All fields are required' });
+  } else {
+      // Check if Phone Number Already Exists
+      const checkQuery = `SELECT * FROM users WHERE phone_number='${phone_number}'`;
+      db.query(checkQuery, (err, result) => {
+          if (err) throw err;
+          if (result.length > 0) {
+              res.status(400).json({ message: 'Phone number already exists' });
+          } else {
+              // Insert User Data into Database
+              const insertQuery = `INSERT INTO users (username, password, phone_number, user_type) VALUES ('${username}', '${password}', '${phone_number}', '${role}')`;
+              db.query(insertQuery, (err, result) => {
+                  if (err) throw err;
+                  res.status(200).json({ message: 'User registered successfully' });
+              });
+          }
+      });
+  }
+});
+
+// Start Server
+
+
+
+
   
   
   // res.send(`Hello ${name}! You are ${password} years old.`);
